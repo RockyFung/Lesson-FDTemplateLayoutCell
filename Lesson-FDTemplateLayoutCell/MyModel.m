@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  MyModel.m
 //  Lesson-FDTemplateLayoutCell
 //
 //  Created by rocky on 16/7/29.
 //  Copyright © 2016年 RockyFung. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MyModel.h"
 
-@interface ViewController : UIViewController
-
+@implementation MyModel
 
 @end
-
