@@ -32,13 +32,13 @@
         MyModel *model = [[MyModel alloc]init];
         if (i % 3 == 0) {
             model.cellTitle = @"长内容";
-            model.cellContext = @"恩，听上去蛮靠谱的。我们知道，UITableView 是个 UIScrollView，就像平时使用 UIScrollView 一样，加载时指定 contentSize 后它才能根据自己的 bounds、contentInset、contentOffset 等属性共同决定是否可以滑动以及滚动条的长度。而 UITableView 在一开始并不知道自己会被填充多少内容，于是询问 data source 个数和创建 cell，同时询问 delegate 这些 cell 应该显示的高度，这就造成它在加载的时候浪费了多余的计算在屏幕外边的 cell 上。和上面的 rowHeight 很类似，设置这个估算高度有两种方法： 后它才能根据自己的 bounds、contentInset、contentOffset 等属性共同决定是否可以滑动以及滚动条的长度。而 UITableView 在一开始并不知道自己会被填充多少内容，于是询问 data source 个数和创建 cell，同时询问 delegate 这些 cell 应该显示的高度，这就造成它在加载的时候浪费了多余的计算在屏幕外边的 cell 上。和上面的 rowHeight 很类似，设置这个估算高度有两种方法：恩，听上去蛮靠谱的。我们知道，UITableView 是个 UIScrollView，就像平时使用 UIScrollView 一样，加载时指定 contentSize 后它才能根据自己的 bounds、contentInset、contentOffset 等属性共同决定是否可以滑动以及滚动条的长度。而 UITableView 在一开始并不知道自己会被填充多少内容，于是询问 data source 个数和创建 cell，同时询问 delegate 这些 cell 应该显示的高度，这就造成它在加载的时候浪费了多余的计算在屏幕外边的 cell 上。和上面的 rowHeight 很类似，设置这个估算高度有两种方法： 后它才能根据自己的 bounds、contentInset、contentOffset 等属性共同决定是否可以滑动以及滚动条的长度。而 UITableView 在一开始并不知道自己会被填充多少内容，于是询问 data source 个数和创建 cell，同时询问 delegate 这些 cell 应该显示的高度，这就造成它在加载的时候浪费了多余的计算在屏幕外边的 cell 上。";
+            model.cellContext = @"恩，听上去蛮靠谱的。我们知道，UITableView 是个 UIScrollView，就像平时使用 UIScrollView 一样，加载时指定 contentSize 后它才能根据自己的 bounds、contentInset、contentOffset 等属性共同决定是否可以滑动以及滚动条的长度。而 UITableView 在一开始并不知道自己会被填充多少内容，于是询问 data source 个数和创建 cell，同时询问 delegate 这些 cell 应该显示的高度，这就造成它在加载的时候浪费了多余的计算在屏幕外边的 cell 上。和上面的 rowHeight 很类似，设置这个估算高度有两种方法： 后它才能根据自己的 bounds、contentInset、contentOffset 等属性共同决定是否可以滑动以及滚动条的长度。而 UITableView 在一开始并不知道自己会被填充多少内容，于是询问 data source 个数和创建 cell，同时询问 delegate 这些 cell 应该显示的高度，这就造成它在加载的时候浪费了多余的计算在屏幕外边的 cell 上。";
         }else if (i % 3 == 1){
             model.cellTitle = @"短内容";
-            model.cellContext = @"具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度";
+            model.cellContext = @"具有动态高度内容的 cell ";
         }else{
             model.cellTitle = @"中内容";
-            model.cellContext = @"具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度";
+            model.cellContext = @"具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度具有动态高度内容的 cell 一直是个头疼的问题，比如聊天气泡的 cell， frame 布局时代通常是用数据内容反算高度具有动态高度内容的 ";
         }
         [self.dataArray addObject:model];
     }
@@ -64,18 +64,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.model = self.dataArray[indexPath.row];
+    [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [tableView fd_heightForCellWithIdentifier:@"cell" configuration:^(MyTableViewCell * cell) {
-//        cell.model = self.dataArray[indexPath.row];
-//        cell.fd_enforceFrameLayout = YES;
+        [self configureCell:cell atIndexPath:indexPath];
     }];
 }
 
+
+- (void)configureCell:(MyTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath{
+    cell.fd_enforceFrameLayout = NO; // 默认
+    cell.model = self.dataArray[indexPath.row];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
